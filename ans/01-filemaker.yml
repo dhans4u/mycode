@@ -1,0 +1,10 @@
+---
+- name: My first playbook
+  hosts: localhost
+  tasks:
+
+  - name: example copying file with owner and permissions
+    copy:
+      dest: /home/student/myfile.txt.ans
+      content: "Firstline of my file"
+...
