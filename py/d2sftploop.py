@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Learning about Python SSH | rzfeeser@alta3.com"""
+"""Learning to Git"""
 
 import warnings
 
