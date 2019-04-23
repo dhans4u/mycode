@@ -1,0 +1,14 @@
+---
+- name: Ansible looping
+  hosts: futurama
+  tasks:
+
+  - name: install applications
+    apt:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - bastet
+      - figlet
+      - nudoku
+    become: yes
