@@ -1,0 +1,41 @@
+---
+- name: My Aritsa playbook
+  hosts: arista
+  gather_facts: no
+
+  vars:
+    ansible_connection: network_cli
+    ansible_become: yes
+    ansible_become_method: enable
+
+  tasks:
+  - name: Gather EOS facts
+    eos_facts:
+      gather_subset: all
+    become: yes
+
+        #  - name: Display variable
+        #    debug:
+        #      var: ansible_facts.net_interfaces.Management1.ipv4.masklen
+
+  - name: Fail if masklen is wrong
+    fail:
+      msg: "The mask length on the Management interface is not == 24"
+    when: ansible_facts.net_interfaces.Management1.ipv4.masklen != 24
+
+  - name: Backup running config
+    copy:
+      dest: "{{ inventory_hostname }}-backup.txt"
+      content: "{{ ansible_net_config }}"
+      force: yes
+      backup: yes
+      
+  - name: Issue a command to the switches
+    eos_command:
+      commands:
+      - show ip route
+    register: results
+
+  - name: display results
+    debug:
+      var: results.stdout_lines

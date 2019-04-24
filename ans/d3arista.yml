@@ -1,0 +1,33 @@
+---
+- name: My Aritsa playbook
+  hosts: arista
+  gather_facts: no
+
+  vars:
+    ansible_connection: network_cli
+    ansible_become: yes
+    ansible_become_method: enable
+    avail_int: []
+
+  tasks:
+  - name: Gather EOS facts
+    eos_facts:
+      gather_subset: all
+    become: yes
+
+  ## easy easy :) ###########################################
+  - set_fact:
+      avail_int: "{{ avail_int }} + [ '{{ item.key }}' ]"
+    loop: "{{ lookup('dict', ansible_net_interfaces) }}"
+    when: "'available' in item.value.description"
+  ###########################################################
+
+  - debug:
+      msg: "{{ avail_int }}"
+
+  - debug:
+      msg: "{{ avail_int | sort }}"
+    #  - name: show interfaces
+    #    debug:
+    #      msg: "{{ item.value.description }}"
+    #    loop: "{{ lookup('dict', ansible_net_interfaces) }}"
