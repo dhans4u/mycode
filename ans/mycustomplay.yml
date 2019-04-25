@@ -1,0 +1,13 @@
+---
+- name: My custom module
+  hosts: localhost
+  tasks:
+  - name: My custom module
+    alta3:
+      name: FAILME
+      new: True
+    register: results
+
+  - name: show results
+    debug:
+      var: results

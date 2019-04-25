@@ -1,0 +1,14 @@
+---
+- name: Running our script
+  hosts: localhost
+
+  tasks:
+  - script: /home/student/mycode/py/d3simple.py
+    args:
+      executable: python3
+      #      creates: /home/student/mycode/ans/ansible-{{ ansible_date_time.date }}.file
+    register: results
+
+  - name: Display results
+    debug:
+      var: results

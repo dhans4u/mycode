@@ -1,0 +1,17 @@
+---
+- name: Running python with ansible
+  hosts: localhost
+  tasks:
+
+    # we want to run a python script
+  - script: /home/student/mycode/py/d3simple.py
+    args:
+      executable: python3
+      creates: "/home/student/mycode/ans/ansible-{{ ansible_date_time.date }}.file"
+      #removes:
+    register: results
+
+  - debug:
+      var: results
+
+

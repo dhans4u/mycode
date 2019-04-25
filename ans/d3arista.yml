@@ -18,7 +18,7 @@
   ## easy easy :) ###########################################
   - set_fact:
       avail_int: "{{ avail_int }} + [ '{{ item.key }}' ]"
-    loop: "{{ lookup('dict', ansible_net_interfaces) }}"
+    loop: "{{ lookup('dict', ansible_net_interfaces )}}"
     when: "'available' in item.value.description"
   ###########################################################
 
