@@ -1,0 +1,13 @@
+- name: play1
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - fail:
+      msg: did this run?
+
+- name: play2
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - debug:
+      msg: did you see this?

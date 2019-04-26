@@ -1,0 +1,18 @@
+---
+- name: Trying to get astros API lookup
+  hosts: localhost
+  gather_facts: no
+  vars:
+    astros: "{{ lookup('url', 'http://api.open-notify.org/astros.json') }}"
+    astrolist: []
+
+  tasks:
+
+  - set_fact:
+      astrolist: "{{ astrolist }} + [ '{{ item.name }}' ]"
+    loop: "{{ astros['people'] }}"
+
+  - name: Show astro list
+    debug:
+      var: astrolist
+ 

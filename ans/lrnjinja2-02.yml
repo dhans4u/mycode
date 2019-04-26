@@ -1,0 +1,41 @@
+---
+- name: loops and default filters
+  hosts: localhost
+
+  vars:
+    mydict:
+      rabbit: 1
+      turkey: 2
+      goldfish: 3
+      cardinal: 4
+      bear: 5
+
+  tasks:
+
+  - debug:
+      msg: "I will print... {{ item }}"
+    loop: [1,2,3,4,5,6,7,8,9]
+    when: item > 5
+
+  - debug:
+      var: mydict
+
+  - debug:
+      msg: " {{ item.key }} "
+    loop: "{{ query('dict', mydict|default({})) }}"
+    when: item.value >= 3
+    register: results
+    loop_control:
+      label: "For My Eyes Only"
+  
+  - debug:
+      var: results.results
+
+  - debug:
+      msg: "{{ results.results|map(attribute='msg')|list }}"
+
+  - name: safety warning
+    debug:
+      msg: "OMG WATCH OUT!"
+    when: "'bear' in item"
+    loop: "{{ results.results|map(attribute='msg')|select('defined')|list }}"

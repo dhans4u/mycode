@@ -1,0 +1,68 @@
+---
+- name: A few basic j2 filters
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    jarlist: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,5]
+    repeatlist: [1,2,2,2,2,2,2,4,4,4,4,4,4,4,9,9,9,9,9,9,9]
+    repeat2list: [5,5,5,5,5,5,5,5,6,7]
+    complexlist: [1,2,3,[4,5,6],7,8,9]
+    sleeptime: 14
+    mixedlist: ['192.168.2.1', '19', '4.3.2', 22, "doorhinge"]
+    test_list:
+      - '192.168.70.1'
+      - '10.10.2.1'
+      - '10.10.2.3'
+      - '10.0.0.1'
+      - Witcher3 The Wild Hunt
+      - True
+      - Earl Grey Tea hot
+      - Enterprise
+      - 'host.alta3.com' 
+
+  tasks:
+
+  - name: the min filter
+    debug:
+      msg: "The min filter reveals the lowest value '{{ jarlist|min }}'"
+
+  - name: the max filter
+    debug:
+      msg: "The max filter reveals the largest value '{{ jarlist|max }}'"
+
+  - name: flattener
+    debug:
+      msg: "The flattener flattens a list '{{ complexlist|flatten }}'"
+
+  - name: unique
+    debug:
+      msg: "Just show the unique values '{{ repeatlist|unique }}'"
+
+  - name: union
+    debug:
+      msg: "Display the union of two lists '{{ repeatlist|union(repeat2list) }}'"
+
+  - name: dipslay diffs
+    debug:
+      msg: "The diffs are '{{ repeatlist|difference(repeat2list) }}'"
+
+  - name: sending switch command
+    pause:
+      seconds: "{{ sleeptime | default(10) }}"
+
+  - name:
+    debug:
+      msg: "The IP addresses are '{{ mixedlist|ipaddr }}'"
+  
+
+  - name:
+    debug:
+      msg: "the MAC will be {{ '00:11:22'|random_mac }}"
+
+  - name: test for ending
+    debug:
+      msg: "{{ test_list[6].endswith('prise') }}"
+
+  - debug:
+      msg: "{{ (test_list|ipaddr('10.0.0.0/8'))[0].split('.')[2] }}"

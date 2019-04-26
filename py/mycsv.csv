@@ -1,0 +1,4 @@
+ip,host,name,loc,date
+10.0.0.1,bender,svr1,NYC,2019
+10.0.0.2,fry,svr2,CHI,2018
+10.0.0.3,lela,svr3,LA,2017

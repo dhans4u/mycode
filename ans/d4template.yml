@@ -1,0 +1,29 @@
+- name: Pushing templates around
+  hosts: localhost
+  vars:
+    loopy:
+      sw1:
+        adminpass: alta3
+        switchname: SW3
+        myip: 172.16.2.30
+        defaultgateway: 1.1.1.1
+      sw2:
+        adminpass: alta4
+        switchname: SW4
+        myip: 1.1.1.1
+        defaultgateway: 2.2.2.2
+
+  tasks:
+  - debug:
+      var: loopy
+    tags: [print_action]
+
+  - name: Run the template module
+    template:
+      src: /home/student/mycode/ans/switch.cfg.j2
+      dest: /home/student/mycode/ans/{{ item.value.switchname }}.cfg
+    loop: "{{ lookup('dict', loopy) }}"
+
+  - name: Gus debug
+    debug:
+      msg: Need some more to help understand

@@ -1,0 +1,19 @@
+[arista]
+sw1 ansible_host=172.16.2.10
+sw2 ansible_host=172.16.2.20
+
+[arista:vars]
+ansible_user=admin
+ansible_password=alta3
+ansible_network_os=eos
+
+[cisco]
+sw3 ansible_host=192.16.0.1
+
+[cisco:vars]
+ansible_network_os=ios
+
+
+[switches:children]
+arista
+cisco

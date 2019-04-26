@@ -1,0 +1,62 @@
+---
+- name: Learning about error handling
+  hosts: localhost
+  tasks:
+
+###
+
+  - name: Precheck Block
+    block:
+      - name: Precheck Task 1 (fact finding)
+        debug:
+          msg: "Go harvest facts from switches"
+
+      - name: Precheck Task 2 (check your facts)
+        debug:
+          msg: "use facts to check something with the FAIL module"
+
+      - name: Precheck Task 3 (check your facts again)
+        debug:
+          msg: "check interfaces again"
+
+    rescue:
+       - name: Precheck Fail
+         fail:
+           msg: "Precheck failed. No need to roll back. Exiting..."
+
+###
+
+
+  - name: Make changes to our infastructure
+    block:
+      - name: Change 1
+        debug:
+          msg: Code to make some change
+
+      - name: Change 2
+        command: /bin/false
+
+    rescue:
+       - name: Change Failed, so undo changes
+         debug:
+           msg: Here is where we have code to UNDO our changes, or call a roll to undo changes
+
+       - name: exit after undo is complete
+         fail:
+           msg: Changes rolled back. Exiting.
+
+###
+
+  - name: Post check phase
+    block:
+      - name: Postcheck 1
+        debug:
+          msg: Code to check on changes--- does state reflect what you wanted, are services still avail
+
+    rescue:
+      - name: Roll back everything
+        debug:
+          msg: Code to roll everything back
+
+      - fail:
+          msg: Post check failed, rollback complete. Exiting.
