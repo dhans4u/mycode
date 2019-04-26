@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Learning about Python SSH | rzfeeser@alta3.com"""
-"""Learning to Git"""
 
 import warnings
 
@@ -39,6 +38,7 @@ def main():
         print("Files in the local home directory:")
         for onefile in working_dir:
             # check the FIRST character of the string
+            # filter out IF it begins with a "."
             if "." not in onefile[0]:
                 print(onefile)
         print()
